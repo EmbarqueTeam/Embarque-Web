@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "Embarque [DEV]": {
+            "applicationId": "KEnFNcnLArxlllOus00LNLjM6KosLi11tTJn7Aes", 
+            "masterKey": "R6wjQIwXDOYY7Lfpn7dpQH91MKga9zygi83VtGqt"
+        }, 
+        "_default": {
+            "link": "Embarque [DEV]"
+        }
+    }
+}
