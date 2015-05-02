@@ -7,6 +7,7 @@ Parse.Cloud.define("hello", function(request, response) {
 
 
 Parse.Cloud.beforeSave("Feedback", function(request, response) {
+    Parse.Cloud.useMasterKey();
     
     var ownFields = new Array();
     ownFields.push(request.object.get("conservation"));
@@ -18,11 +19,18 @@ Parse.Cloud.beforeSave("Feedback", function(request, response) {
     
     var ownAverage = getAverageFromArray(ownFields);
     
+    var postACL = new Parse.ACL();
+    postACL.setPublicReadAccess(true);
+    postACL.setPublicWriteAccess(false);
+    request.object.setACL(postACL);
+    
     request.object.set("average", ownAverage);
     response.success();
 });
 
 Parse.Cloud.afterSave("Feedback", function(request) {
+    Parse.Cloud.useMasterKey();
+    
     var airport = request.object.get("airport");
     if (airport != undefined){
         var query = new Parse.Query("Feedback");
@@ -60,6 +68,7 @@ Parse.Cloud.afterSave("Feedback", function(request) {
 });
 
 Parse.Cloud.beforeSave("Airport", function(request, response) {
+    Parse.Cloud.useMasterKey();
     
     var ownFields = new Array();
     ownFields.push(request.object.get("conservation"));
@@ -72,6 +81,11 @@ Parse.Cloud.beforeSave("Airport", function(request, response) {
     var ownAverage = getAverageFromArray(ownFields);
     
     var base10 = (((ownAverage+3)/6)*10);
+    
+    var postACL = new Parse.ACL();
+    postACL.setPublicReadAccess(true);
+    postACL.setPublicWriteAccess(false);
+    request.object.setACL(postACL);
     
     request.object.set("rateAverage", base10);
     response.success();
