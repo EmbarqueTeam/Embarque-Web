@@ -80,7 +80,7 @@ Parse.Cloud.beforeSave("Airport", function(request, response) {
     
     var ownAverage = getAverageFromArray(ownFields);
     
-    var base10 = (((ownAverage+3)/6)*10);
+    var base10 = getBase10Average(ownAverage);
     
     var postACL = new Parse.ACL();
     postACL.setPublicReadAccess(true);
@@ -102,7 +102,7 @@ function getAverageFromArray(results){
         }
     }
     var average = sum / results.length;
-    return average;
+    return parseFloat(average.toFixed(2));
 }
 
 function getAverageFromObjects(results, field){
@@ -114,5 +114,10 @@ function getAverageFromObjects(results, field){
         }
     }
     var average = sum / results.length;
-    return average;
+    return parseFloat(average.toFixed(2));
+}
+
+function getBase10Average(ave){
+    var average = (((ave+3)/6)*10);
+    return parseFloat(average.toFixed(2));
 }
